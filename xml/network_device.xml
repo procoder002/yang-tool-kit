@@ -1,0 +1,11 @@
+<network-device xmlns="urn:example:network-device">
+    <device-name>Router1</device-name>
+    <ip-address>192.168.1.1</ip-address>
+    <port>80</port>
+    <settings>
+        <setting>
+            <name>hostname</name>
+            <value>Router1-Hostname</value>
+        </setting>
+    </settings>
+</network-device>

@@ -1,0 +1,32 @@
+module network-device {
+    namespace "urn:example:network-device";
+    prefix "nd";
+
+    container network-device {
+        leaf device-name {
+            type string;
+        }
+        leaf ip-address {
+            //must "../device-name";
+            type string;
+            default "127.0.0.1";
+        }
+        leaf port {
+            //must "current() <= 100";
+            type uint16;
+            default 8080;
+        }
+        container settings {
+            list setting {
+                key "name";
+                leaf name {
+                    type string;
+                    default "ppal";
+                }
+                leaf value {
+                    type string;
+                }
+            }
+        }
+    }
+}

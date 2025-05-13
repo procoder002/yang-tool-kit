@@ -1,0 +1,150 @@
+module router-config {
+  namespace "http://example.com/router-config";
+  prefix routercfg;
+
+  // Import necessary types from other YANG modules
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+  revision 2025-02-18 {
+    description "Initial revision of the router configuration module with nested containers.";
+  }
+
+  // Container for the router configuration
+  container router {
+    description "Main container for router configurations.";
+
+    // List to define multiple interfaces
+    list interface {
+      key "name";
+      description "A list of network interfaces on the router.";
+
+      leaf name {
+        type string;
+        description "Name of the interface (e.g., eth0, eth1).";
+      }
+
+      leaf description {
+        type string;
+        description "Description of the interface.";
+      }
+
+      leaf enabled {
+        type boolean;
+        description "Status of the interface (enabled/disabled).";
+        default "true";
+      }
+
+      container ipv4 {
+        description "IPv4 configuration for the interface.";
+
+        leaf ip-address {
+          type inet:ipv4-address;
+          description "IPv4 address assigned to the interface.";
+        }
+
+        leaf subnet-mask {
+          type inet:ipv4-address;
+          description "IPv4 subnet mask for the interface.";
+        }
+
+        // Nested list for multiple default gateways
+        list gateway {
+          key "gateway-address";
+          description "List of default gateways for the interface.";
+
+          leaf gateway-address {
+            type inet:ipv4-address;
+            description "IPv4 address of the default gateway.";
+          }
+
+          leaf priority {
+            type uint8;
+            description "Priority for selecting the gateway.";
+            default "1";
+          }
+        }
+      }
+
+      container ipv6 {
+        description "IPv6 configuration for the interface.";
+
+        leaf ip-address {
+          type inet:ipv6-address;
+          description "IPv6 address assigned to the interface.";
+        }
+
+        leaf prefix-length {
+          type uint8;
+          description "Prefix length for the IPv6 address.";
+        }
+
+        // Nested list for multiple DNS servers
+        list dns-server {
+          key "server-ip";
+          description "List of DNS servers for the interface.";
+
+          leaf server-ip {
+            type inet:ipv6-address;
+            description "IPv6 address of the DNS server.";
+          }
+
+          leaf priority {
+            type uint8;
+            description "Priority for the DNS server.";
+            default "1";
+          }
+        }
+      }
+    }
+
+    // Container for system-wide routing settings
+    container routing {
+      description "Container for global routing configurations.";
+
+      leaf routing-protocol {
+        type string;
+        description "Routing protocol used (e.g., OSPF, BGP).";
+      }
+
+      leaf router-id {
+        type inet:ipv4-address;
+        description "Router ID for routing protocol identification.";
+      }
+
+      // Nested list of routing tables
+      list routing-table {
+        key "table-id";
+        description "List of routing tables for the router.";
+
+        leaf table-id {
+          type string;
+          description "ID of the routing table.";
+        }
+
+        list route {
+          key "destination";
+          description "List of routes in the routing table.";
+
+          leaf destination {
+            type inet:ipv4-address;
+            description "Destination network address.";
+          }
+
+          leaf next-hop {
+            type inet:ipv4-address;
+            description "Next-hop IP address to reach the destination.";
+          }
+
+          leaf metric {
+            type uint32;
+            description "Route metric (cost of the route).";
+            default "10";
+          }
+        }
+      }
+    }
+  }
+
+}

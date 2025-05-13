@@ -1,0 +1,3 @@
+#dir yang-file ('#' denotes comment)
+yang network-device
+yang router-config

@@ -1,0 +1,43 @@
+#! /bin/bash
+
+current_directory=$(pwd)
+libyang_dir=3rd-party/libyang
+
+ytk_bin=build/yang_tool_kit
+gen_dir=auto_gen
+
+if [ ! -d $libyang_dir ]; then
+  mkdir -p $libyang_dir
+  cd $libyang_dir
+  git clone https://github.com/CESNET/libyang.git .
+  mkdir build
+  cd build
+  cmake ..
+
+  make
+  cd $current_directory
+fi
+
+if [ ! -f $ytk_bin ]; then
+  mkdir build
+  cd build 
+  cmake -DLIBYANG_DIR=$current_directory/$libyang_dir/build/ ..
+
+  make
+
+  if [ ! -d $gen_dir ]; then
+    mkdir $gen_dir
+  fi
+  cd $current_directory
+fi
+
+./build/yang_tool_kit   recipe/yang_input.txt    build/auto_gen/
+
+cd app
+if [ ! -d app/build ]; then
+  mkdir build
+  cd build
+  cmake -DLIBYANG_DIR=$current_directory/$libyang_dir/build/ ..
+
+  make
+fi

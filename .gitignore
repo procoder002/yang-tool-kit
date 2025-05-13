@@ -1,0 +1,4 @@
+3rd-party/*
+build/*
+.vscode/*
+app/build/*
