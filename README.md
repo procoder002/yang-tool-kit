@@ -7,8 +7,9 @@ The YANG Tool Kit (YTK) is a software development tool, which provides API for b
 ### Key features
 * YANG model driven code generation
 * Code parsing & generation using libyang
-* Flexible & extendible, can a
-* 
+* Flexible & extendible, support YANG augmentation
+* XML formatted configuration can be loaded into a structure which can be modified programatically.
+* Supports pub-sub model, southbound clients can 'Subscribe' for a YANG xpath and they will get notified when there is a change of data under those path.
 
 ### Build Requirement:
 * g++ compiler (--stdc++11)
@@ -72,12 +73,8 @@ The YANG Tool Kit (YTK) is a software development tool, which provides API for b
 * Please refer to the clinet_app.cpp for more details
 
 
-### Running Unit Tests
-
-
-
 ### Backward Compatibility
-
+* Software upgrade can be done seamlessly as this tool is fully backward compatible with older YANG schema.
 
 ### Future Enhancement:
 * Integration with NETCONF, RESTCONF, gNMI etc. Coming Soon ...
